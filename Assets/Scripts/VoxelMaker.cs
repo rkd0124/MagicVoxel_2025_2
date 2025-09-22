@@ -29,14 +29,33 @@ public class VoxelMaker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (Input.GetButtonDown("Fire1")){
         if (ARAVRInput.Get(ARAVRInput.Button.One)){
             currentTime += Time.deltaTime;
 
             if (currentTime > creatTime)
             {
-                if (Input.GetButtonDown("Fire1"))  //사용자가 버튼을 누르면
+                Ray ray = new Ray(ARAVRInput.RHandPosition,ARAVRInput.RHandDirection);
+                RaycastHit hitinfo = new RaycastHit();
+
+                if (Physics.Raycast(ray, out hitinfo)) //마우스 클릭한 곳이 바닥이면
                 {
-                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    if (voxelPool.Count > 0)
+                    {
+                        currentTime = 0;
+
+                        GameObject voxel = voxelPool[0]; //풀의 최상단꺼 가져옴
+                        voxel.SetActive(true); //그거 활성화
+
+                        voxel.transform.position = hitinfo.point; //클릭한 위치에 생성
+                        voxelPool.RemoveAt(0); //풀 하나 삭제
+                    }
+                }    
+
+               /*if (Input.GetButtonDown("Fire1"))  //사용자가 버튼을 누르면
+                {
+                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    Ray ray = new Ray(ARAVRInput.RHandPosition,ARAVRInput.RHandDirection);
                     RaycastHit hitinfo = new RaycastHit();
 
                     if (Physics.Raycast(ray, out hitinfo)) //마우스 클릭한 곳이 바닥이면
@@ -52,7 +71,7 @@ public class VoxelMaker : MonoBehaviour
                             voxelPool.RemoveAt(0); //풀 하나 삭제
                         }
                     }
-                }
+                }*/
             }
         }
        
