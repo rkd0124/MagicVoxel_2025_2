@@ -14,6 +14,8 @@ public class VoxelMaker : MonoBehaviour
 
     float currentTime = 0;
 
+    public Transform crosshair;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +31,9 @@ public class VoxelMaker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        ARAVRInput.DrawCrosshair(crosshair);
+
         //if (Input.GetButtonDown("Fire1")){
         if (ARAVRInput.Get(ARAVRInput.Button.One)){
             currentTime += Time.deltaTime;
